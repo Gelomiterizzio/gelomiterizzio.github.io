@@ -101,6 +101,40 @@ footer {
 #p-welcome {
     font-size: 1.5rem;
 }
+
+/* Estilo para el menú hamburguesa */
+.menu-icon {
+    display: none; /* Oculta el menú hamburguesa por defecto en pantallas grandes */
+    cursor: pointer;
+}
+
+.menu-icon .bar {
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+/* Estilo para la barra de navegación */
+nav {
+    text-align: right; /* Alinea los elementos a la derecha en pantallas grandes */
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-left: 20px; /* Separación entre elementos */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
 /* Estilos responsivos */
 @media (max-width: 768px) {
     header {
@@ -137,5 +171,26 @@ footer {
 
     section {
         padding: 20px;
+    }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    /* Mostrar el menú hamburguesa en pantallas pequeñas */
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    /* Ocultar la barra de navegación en pantallas pequeñas */
+    nav {
+        display: none;
+    }
+
+    /* Mostrar la barra de navegación cuando el menú hamburguesa está activo */
+    #nav.active {
+        display: block;
     }
 }
