@@ -1,0 +1,141 @@
+/* Reset de estilos para eliminar márgenes y rellenos predeterminados */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para la barra de navegación */
+header {
+    background-color: #333;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Estilo para las secciones */
+section {
+    padding: 50px;
+    text-align: center;
+}
+
+/* Estilo para el footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
+
+/* Estilo para el contenedor principal */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Estilo para la barra de navegación */
+header {
+    background-color: #18181B;
+    color: white;
+    padding: 30px;
+    text-align: right; /* Alinea los elementos a la derecha */
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-left: 20px; /* Separación entre elementos */
+}
+
+nav a {
+    color: #858594;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Estilo para las secciones */
+section {
+    flex: 1; /* Hace que las secciones ocupen todo el espacio disponible */
+    padding: 50px;
+    text-align: center;
+    overflow-y: auto; /* Agrega una barra de desplazamiento si el contenido es demasiado largo */
+}
+
+/* Estilo para el footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+#inicio {
+    background-color: #3b3b43;
+    color: #FFF;
+    height: calc(100vh - 100px);
+    text-align: left;
+    padding-bottom: 35%;
+}
+#texto-container {
+    font-size: 2rem;
+}
+#p-welcome {
+    font-size: 1.5rem;
+}
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    header {
+        padding: 10px;
+    }
+
+    nav ul {
+        text-align: center;
+    }
+
+    nav ul li {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    header {
+        text-align: center; /* Centra los elementos en pantallas más pequeñas */
+    }
+
+    nav ul {
+        text-align: center;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0; /* Espaciado entre elementos en pantallas más pequeñas */
+    }
+
+    section {
+        padding: 20px;
+    }
+}
