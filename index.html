@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Mi Portfolio</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="inicio">
+        <!-- Añade un contenedor div para el efecto de texto -->
+        <div id="texto-container">
+            <h1>Hello! I'm <p id="titulo"></p></h1>
+        </div>
+        <!-- Contenido de la sección de inicio -->
+        <p id="p-welcome">Welcome to my portfolio</p>
+    </section>
+    
+    <section id="proyectos">
+        <h2>Sección de Proyectos</h2>
+        <!-- Contenido de la sección de proyectos -->
+    </section>
+    
+    <section id="contacto">
+        <h3>Contacto</h3>
+        <!-- Contenido de la sección de contacto -->
+    </section>
+    
+    <footer>
+        <p>Información de contacto: tu@email.com</p>
+    </footer>
+
+    <script>
+        const palabras = ["Mauricio", "Front\u00A0End\u00A0Developer"]; // Cambia estas palabras por las que desees
+        let indice = 0;
+        let escribiendo = true;
+        let tituloElement = document.getElementById("titulo");
+        let tiempoDeEspera = 1000; // Tiempo de espera predeterminado
+    
+        function escribirBorrarTexto() {
+            const palabraActual = palabras[indice];
+            let textoActual = tituloElement.innerText;
+    
+            if (escribiendo) {
+                if (textoActual !== palabraActual) {
+                    const letraActual = palabraActual.charAt(textoActual.length);
+                    textoActual += letraActual === ' ' ? '\u00A0' : letraActual; // Usa '\u00A0' para espacio en blanco no colapsable
+                    tituloElement.innerText = textoActual;
+                    setTimeout(escribirBorrarTexto, 100);
+                } else {
+                    setTimeout(() => {
+                        escribiendo = false;
+                        tiempoDeEspera = 1000; // Cambia el tiempo de espera cuando se completa la escritura
+                        setTimeout(borrarTexto, tiempoDeEspera);
+                    }, 1000); // Espera 1 segundo antes de iniciar el borrado
+                }
+            } else {
+                setTimeout(borrarTexto, 1000); // Espera 1 segundo antes de iniciar el borrado
+            }
+        }
+    
+        function borrarTexto() {
+            const palabraActual = palabras[indice];
+            let textoActual = tituloElement.innerText;
+    
+            if (textoActual !== "") {
+                textoActual = textoActual.slice(0, -1);
+                tituloElement.innerText = textoActual;
+                setTimeout(borrarTexto, 100);
+            } else {
+                setTimeout(() => {
+                    escribiendo = true;
+                    indice = (indice + 1) % palabras.length;
+                    tiempoDeEspera = 1000; // Cambia el tiempo de espera cuando se completa el borrado
+                    setTimeout(escribirBorrarTexto, tiempoDeEspera);
+                }, 100); // Espera 1 segundo antes de iniciar la escritura
+            }
+        }
+    
+        escribirBorrarTexto();
+    </script>
+    
+    
+    
+    
+</body>
+</html>
+
+
