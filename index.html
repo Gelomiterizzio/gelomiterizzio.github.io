@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <title>Mi Portfolio</title>
+    
+
 </head>
 <body>
     <div id="fondo">
@@ -27,7 +31,23 @@
             </ul>
         </nav>
     </header>
-    
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+  
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+  
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop,
+          behavior: 'smooth' // Desplazamiento suave
+        });
+      }
+    });
+  }); 
+    </script>
     <section id="inicio">
         <!-- Añade un contenedor div para el efecto de texto -->
         <div id="texto-container">
@@ -38,20 +58,62 @@
     </section>
     </div>
     </div>
-    <section id="proyectos">
-        <h2>Sección de Proyectos</h2>
-        <!-- Contenido de la sección de proyectos -->
+    <section id="proyectos" class="secciones" data-aos="fade-up">
+        <h2 class="titulo" data-aos="fade-down">PROJECTS</h2>
+    <div class="grid" data-aos="fade-down">
+      <div class="proyecto" href="https://fruti-homies-delivery.netlify.app/" onclick="abrirPagina(event, 'https://fruti-homies-delivery.netlify.app/')">
+        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Fruti-Homies.png" alt="Imagen 1">
+        <p>Landing Page Fruti Homies</p>
+        </a>
+      </div>
+      <div class="proyecto">
+        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Dr-Norman-Borlaug.png" alt="Imagen 2">
+        <p>Tribute page Dr Norman Borlaug</p>
+        </a>
+      </div>
+      <div class="proyecto">
+        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Pele-tribute-page.png" alt="Imagen 3">
+        <p>Tribute page Pele</p>
+        </a>
+      </div>
+      <div class="proyecto">
+        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/JS-Documentary.png" alt="Imagen 4">
+        <p>JS Documentary</p>
+        </a>
+      </div>
+      <div class="proyecto">
+        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Trombones.png" alt="Imagen 5">
+        <p>Landing Page Trombones</p>
+        </a>
+      </div>
+      <div class="proyecto">
+        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Survey-wc.png" alt="Imagen 6">
+        <p>Survey Form World Cup</p>
+        </a>
+      </div>
+    </div>
     </section>
-    
-    <section id="contacto">
-        <h3>Tecnologías</h3>
+    <section id="Technologies" class="secciones">
+        <h3 class="titulo" id="tech-h3" data-aos="fade-down">Technologies</h3>
         <!-- Contenido de la sección de contacto -->
+        <div id="grid-tech" data-aos="fade-down">
+            <div class="certify" href="https://fruti-homies-delivery.netlify.app/" onclick="abrirPagina(event, 'https://fruti-homies-delivery.netlify.app/')">
+                <a href="https://www.freecodecamp.org/certification/Mauricio25667/responsive-web-design" target="_blank"><img src="Imagenes/HTML-and-CSS.png" alt="Imagen 1">
+                <p>HTML and CSS</p>
+                </a>
+            </div>
+            <div class="certify" href="https://fruti-homies-delivery.netlify.app/" onclick="abrirPagina(event, 'https://fruti-homies-delivery.netlify.app/')">
+                <a href="https://www.freecodecamp.org/certification/Mauricio25667/javascript-algorithms-and-data-structures" target="_blank"><img src="Imagenes/Javascript.png" alt="Imagen 1">
+                <p>Javascript</p>
+                </a>
+            </div>
+        </div>
     </section>
     
-    <footer>
+    <footer class="secciones">
         <p>Información de contacto: tu@email.com</p>
     </footer>
-
+    <script src="script.js"></script>
     <script>
         const palabras = ["Mauricio", "Front\u00A0End\u00A0Developer"]; // Cambia estas palabras por las que desees
         let indice = 0;
@@ -103,7 +165,13 @@
     </script>
     
     
-    
+    <script>
+        AOS.init({
+            duration: 1000, // Duración de las animaciones en milisegundos
+            easing: 'ease-in-out', // Tipo de easing para las animaciones (puedes cambiarlo según tus preferencias)
+            once: true // Esta opción hace que las animaciones solo se reproduzcan una vez
+        });
+    </script> 
     
 </body>
 </html>

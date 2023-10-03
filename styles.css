@@ -3,6 +3,7 @@ body, h1, h2, h3, p, ul, li {
     margin: 0;
     padding: 0;
 }
+
 @font-face {
     font-family: "Open Sans";
     font-style: normal;
@@ -12,7 +13,7 @@ body, h1, h2, h3, p, ul, li {
   * {
     font-family: "Open Sans";
   }
-  
+
 #fondo {
     width: auto;
     height: auto;
@@ -72,6 +73,128 @@ header::before {
     background-color: #18181B;
     opacity: 0.7;
   }
+/* GRID */
+  section#proyectos {
+    margin: 0;
+    padding: 0;
+    
+  }
+  
+  .titulo {
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 25px;
+    grid-row-gap: 120px;
+    background-color: #18181B;
+    padding-bottom: 80px;
+    padding-left: 70px;
+  }
+  .titulo{
+    background-color: #18181B;
+    color: #858594;
+    text-shadow: 2px 2px 4px rgba(133, 133, 148, 0.5); /* Sombra de texto */
+
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-size: 30px;
+  }
+  .proyecto {
+    position: relative;
+    width: 75%; /* Ancho de tu contenedor */
+    overflow: hidden;
+    transition: transform 1.5s ease;
+    background-color: #3b3b43;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(133, 133, 148, 0.8);
+  }
+  .proyecto a{
+    text-decoration: none; /* Quita el subrayado */
+    color: #FFFFFF; /* Establece el color de texto personalizado */
+   }
+  img {
+    width: 300px;
+    height: 175px;
+
+  }
+#proyectos {
+    background-color: #18181B;
+}
+  .proyecto p {
+    text-align: center;
+    padding-top: 10px;
+  }
+/* EFECTO DE ANIMACION SUAVE AL CARGAR Y APARECER LOS ELEMENTOS */
+.secciones {
+    opacity: 0; /* Inicialmente, los elementos están ocultos */
+    transform: translateY(-20px); /* Los elementos estarán 20px arriba */
+    animation: aparecer 0.5s ease-in-out forwards; /* Nombre de la animación y duración */
+    
+}
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* SECCION DE TECNOLOGIAS*/
+#Technologies {
+    padding: 0;
+    background-color: #3b3b43;
+    
+}
+#grid-tech {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: #3b3b43;
+    justify-content: center;
+  }
+#tech-h3 {
+    background-color: #3b3b43;
+    color: #D4D4D8;
+}
+
+.certify {
+    
+    width: 50%; /* Ancho de tu contenedor */
+    overflow: hidden;
+    transition: transform 1.5s ease;
+    background-color: #3b3b43;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(133, 133, 148, 0.8);
+  }
+.certify p {
+    text-align: center;
+    padding-top: 10px;
+  }
+.certify a{
+    text-decoration: none; /* Quita el subrayado */
+    color: #FFFFFF; /* Establece el color de texto personalizado */
+   }
+   .certify:hover {
+    transform: scale(1.1); /* Cambiar el valor para ajustar el efecto de agrandamiento */
+}
+/* AGRANDAR IMAGENES AL PASAR EL MOUSE */
+  .proyecto:hover {
+    transform: scale(1.1); /* Cambiar el valor para ajustar el efecto de agrandamiento */
+}
+
+
+
+
 /* Estilo para la barra de navegación */
 header {
     
@@ -269,5 +392,27 @@ nav a {
     /* Mostrar la barra de navegación cuando el menú hamburguesa está activo */
     #nav.active {
         display: block;
+    }
+
+    /* DISEÑO RESPONSIVO DE LOS PROYECTOS GRID */
+    .grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+      }
+    
+      .proyecto {
+        width: 100%;
+        height: 100%;
+      }
+    /* DISEÑO RESPONSIVO PROYECTOS GRID EN COLUMNA*/
+    .grid {
+        display: block; /* Cambia el display de grid a bloque para apilar elementos verticalmente */
+        padding: 0; /* Elimina el relleno */
+    }
+
+    .proyecto {
+        width: 50%; /* Ancho completo en pantallas pequeñas */
+        margin-bottom: 40px; /* Espacio entre proyectos */
+        margin: 0 auto 40px; /* Centra horizontalmente y agrega espacio inferior entre proyectos */
     }
 }
