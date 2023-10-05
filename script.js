@@ -69,4 +69,20 @@ window.addEventListener('scroll', () => {
         desplazamientoRealizado = true;
     }
 });
-  
+// GENERAR LOGO DE LINKEDIN
+function generateLinkedInLogo(div) {
+  // Obtenemos el ancho y el alto del div.
+  const width = div.offsetWidth;
+  const height = div.offsetHeight;
+
+  // Creamos una imagen con el logo de LinkedIn.
+  const image = new Image();
+  image.src = "https://static.licdn.com/scds/common/u/img/webcomponents/logo/linkedin_logo_green_2x.svg";
+
+  // Ajustamos el tamaño de la imagen al div.
+  image.width = width;
+  image.height = height;
+
+  // Agregamos la imagen al div.
+  div.appendChild(image);
+}  
