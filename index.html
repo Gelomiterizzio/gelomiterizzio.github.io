@@ -1,188 +1,1019 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <title>Mi Portfolio</title>
-    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauricio — Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --accent: #00ff88;
+    --accent2: #00c4ff;
+    --text: #e8f0fe;
+    --muted: #7a8899;
+    --border: rgba(0,255,136,0.15);
+    --card-bg: rgba(13,17,23,0.8);
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS BACKGROUND ── */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--muted); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    top: 63px;
+    background: rgba(8,12,16,0.97);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .mobile-menu a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #inicio {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero-heading {
+    font-family: var(--mono);
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.4s forwards;
+  }
+
+  .hero-heading .name {
+    display: block;
+    color: var(--accent);
+  }
+
+  .typewriter {
+    display: inline-block;
+    color: var(--text);
+    border-right: 3px solid var(--accent);
+    padding-right: 4px;
+    animation: blink 0.7s step-end infinite;
+    min-width: 2px;
+  }
+
+  @keyframes blink { 50% { border-color: transparent; } }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.6s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.8s forwards;
+  }
+
+  .btn-primary {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .btn-outline:hover {
+    background: rgba(0,255,136,0.08);
+    transform: translateY(-2px);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+
+  .hero-scroll span {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    padding: 6rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+
+  .section-title span { color: var(--accent); }
+
+  /* ── PROJECTS ── */
+  #proyectos { background: var(--bg2); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s;
+    text-decoration: none;
+    display: block;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,255,136,0.5);
+  }
+
+  .project-card:hover .project-overlay { opacity: 1; }
+  .project-card:hover .project-img { transform: scale(1.05); }
+
+  .project-img-wrap {
+    overflow: hidden;
+    height: 190px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    filter: brightness(0.8) saturate(0.9);
+  }
+
+  .project-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg3), #1a2332);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .project-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 190px;
+    background: rgba(0,255,136,0.08);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .project-overlay-icon {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    border: 1px solid var(--accent);
+    padding: 0.5rem 1.2rem;
+  }
+
+  .project-info {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .project-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.4rem;
+  }
+
+  .project-title {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* ── TECHNOLOGIES ── */
+  #Technologies { background: var(--bg); }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 700px;
+  }
+
+  .tech-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+  }
+
+  .tech-card:hover {
+    border-color: rgba(0,255,136,0.4);
+    transform: translateX(6px);
+  }
+
+  .tech-card:hover::before { transform: scaleY(1); }
+
+  .tech-icon-wrap {
+    width: 56px;
+    height: 56px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tech-icon-wrap img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: brightness(0.9) saturate(0.85);
+  }
+
+  .tech-info { flex: 1; }
+
+  .tech-name {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .tech-cert {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .tech-badge {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 2px 8px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  /* ── CONTACT ── */
+  #contact-me {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-inner {
+    max-width: 700px;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,255,136,0.05);
+  }
+
+  .contact-link svg { width: 16px; height: 16px; }
+
+  .footer-bar {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-accent {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+  .reveal-delay-6 { transition-delay: 0.6s; }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s, opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,255,136,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    #inicio { padding: 7rem 2rem 4rem; }
+    section { padding: 4rem 2rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .tech-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    nav { padding: 1rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-heading { font-size: 2.5rem; }
+    .contact-links { flex-direction: column; }
+  }
+</style>
 </head>
 <body>
-    <div id="fondo">
-    <div id="color-fondo">
-    <header>
-        <!-- Menú hamburguesa para pantallas pequeñas -->
-        <div class="menu-icon" id="menu-icon">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
 
-        <!-- Barra de navegación -->
-        <nav id="nav">
-            <ul>
-                <li><a href="#inicio">About me</a></li>
-                <li><a href="#proyectos">Projects</a></li>
-                <li><a href="#Technologies">Technologies</a></li>
-                <li><a href="#contact-me">Contact me</a></li>
-            </ul>
-        </nav>
-    </header>
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-  
-      const targetId = this.getAttribute('href').substring(1);
-      const targetElement = document.getElementById(targetId);
-  
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop,
-          behavior: 'smooth' // Desplazamiento suave
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Animated bg canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">M<span>_</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#inicio">About</a></li>
+    <li><a href="#proyectos">Projects</a></li>
+    <li><a href="#Technologies">Technologies</a></li>
+    <li><a href="#contact-me">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#inicio" class="mob-link">About</a>
+  <a href="#proyectos" class="mob-link">Projects</a>
+  <a href="#Technologies" class="mob-link">Technologies</a>
+  <a href="#contact-me" class="mob-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="inicio">
+  <div class="hero-tag">Portfolio Mauricio</div>
+  <h1 class="hero-heading">
+    Hello, I'm
+    <span class="name"><span class="typewriter" id="typewriter"></span></span>
+  </h1>
+  <p class="hero-sub">I build fast, elegant, and interactive web experiences — from concept to pixel-perfect code.</p>
+  <div class="hero-cta">
+    <a href="#proyectos" class="btn-primary">View Projects</a>
+    <a href="#contact-me" class="btn-outline">Contact Me</a>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="proyectos">
+  <div class="section-label reveal">Featured work</div>
+  <h2 class="section-title reveal">Projects<span>.</span></h2>
+  <div class="projects-grid">
+
+    <a href="https://fruti-homies-delivery.netlify.app/" target="_blank" class="project-card reveal reveal-delay-1">
+      <div class="project-img-wrap">
+        <div class="project-img-placeholder">FRUTI HOMIES</div>
+      </div>
+      <div class="project-overlay"><span class="project-overlay-icon">OPEN →</span></div>
+      <div class="project-info">
+        <div class="project-num">01</div>
+        <div class="project-title">Landing Page Fruti Homies</div>
+      </div>
+    </a>
+
+    <a href="#" target="_blank" class="project-card reveal reveal-delay-2">
+      <div class="project-img-wrap">
+        <div class="project-img-placeholder">DR BORLAUG</div>
+      </div>
+      <div class="project-overlay"><span class="project-overlay-icon">OPEN →</span></div>
+      <div class="project-info">
+        <div class="project-num">02</div>
+        <div class="project-title">Tribute Page — Dr Norman Borlaug</div>
+      </div>
+    </a>
+
+    <a href="#" target="_blank" class="project-card reveal reveal-delay-3">
+      <div class="project-img-wrap">
+        <div class="project-img-placeholder">PELÉ</div>
+      </div>
+      <div class="project-overlay"><span class="project-overlay-icon">OPEN →</span></div>
+      <div class="project-info">
+        <div class="project-num">03</div>
+        <div class="project-title">Tribute Page — Pelé</div>
+      </div>
+    </a>
+
+    <a href="#" target="_blank" class="project-card reveal reveal-delay-4">
+      <div class="project-img-wrap">
+        <div class="project-img-placeholder">JS DOCUMENTARY</div>
+      </div>
+      <div class="project-overlay"><span class="project-overlay-icon">OPEN →</span></div>
+      <div class="project-info">
+        <div class="project-num">04</div>
+        <div class="project-title">JS Documentary</div>
+      </div>
+    </a>
+
+    <a href="#" target="_blank" class="project-card reveal reveal-delay-5">
+      <div class="project-img-wrap">
+        <div class="project-img-placeholder">TROMBONES</div>
+      </div>
+      <div class="project-overlay"><span class="project-overlay-icon">OPEN →</span></div>
+      <div class="project-info">
+        <div class="project-num">05</div>
+        <div class="project-title">Landing Page Trombones</div>
+      </div>
+    </a>
+
+    <a href="#" target="_blank" class="project-card reveal reveal-delay-6">
+      <div class="project-img-wrap">
+        <div class="project-img-placeholder">WORLD CUP</div>
+      </div>
+      <div class="project-overlay"><span class="project-overlay-icon">OPEN →</span></div>
+      <div class="project-info">
+        <div class="project-num">06</div>
+        <div class="project-title">Survey Form — World Cup</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+<section id="Technologies">
+  <div class="section-label reveal">Stack</div>
+  <h2 class="section-title reveal">Technologies<span>.</span></h2>
+  <div class="tech-grid">
+
+    <a href="https://www.freecodecamp.org/certification/Mauricio25667/responsive-web-design" target="_blank" class="tech-card reveal reveal-delay-1">
+      <div class="tech-icon-wrap">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML CSS">
+      </div>
+      <div class="tech-info">
+        <div class="tech-name">HTML & CSS</div>
+        <div class="tech-cert">Responsive Web Design</div>
+      </div>
+      <div class="tech-badge">Certified</div>
+    </a>
+
+    <a href="https://www.freecodecamp.org/certification/Mauricio25667/javascript-algorithms-and-data-structures" target="_blank" class="tech-card reveal reveal-delay-2">
+      <div class="tech-icon-wrap">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+      </div>
+      <div class="tech-info">
+        <div class="tech-name">JavaScript</div>
+        <div class="tech-cert">Algorithms & Data Structures</div>
+      </div>
+      <div class="tech-badge">Certified</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact-me">
+  <div class="contact-inner">
+    <div class="section-label reveal">Get in touch</div>
+    <h2 class="section-title reveal">Let's build<br>something<span> great.</span></h2>
+    <p class="reveal" style="color:var(--muted); max-width: 460px; margin-bottom: 0;">
+      I'm open to new projects, collaborations, and opportunities. Reach out through any of these channels.
+    </p>
+    <div class="contact-links reveal reveal-delay-1">
+
+      <a href="#" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Instagram
+      </a>
+
+      <a href="#" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+
+      <a href="#" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+
+      <a href="#" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        WhatsApp
+      </a>
+
+    </div>
+
+    <div class="footer-bar reveal">
+      <div class="footer-copy">© 2026 Mauricio — Frontend Developer</div>
+      <div class="footer-accent">Built with ❤ + code</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ── CANVAS PARTICLE GRID ──
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = { x: -999, y: -999 };
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function initParticles() {
+    particles = [];
+    const cols = Math.floor(W / 80);
+    const rows = Math.floor(H / 80);
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        particles.push({
+          x: (i / cols) * W + 40,
+          y: (j / rows) * H + 40,
+          ox: (i / cols) * W + 40,
+          oy: (j / rows) * H + 40,
+          vx: 0, vy: 0,
+          size: Math.random() * 1.5 + 0.5
         });
       }
+    }
+  }
+  initParticles();
+
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY + window.scrollY;
+  });
+
+  function animCanvas() {
+    ctx.clearRect(0, 0, W, H);
+    const scrollY = window.scrollY;
+
+    particles.forEach(p => {
+      const dx = mouse.x - p.x;
+      const dy = (mouse.y - scrollY) - p.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const force = Math.max(0, 80 - dist) / 80;
+
+      p.vx += -dx * force * 0.015;
+      p.vy += -dy * force * 0.015;
+      p.vx += (p.ox - p.x) * 0.04;
+      p.vy += (p.oy - p.y) * 0.04;
+      p.vx *= 0.85;
+      p.vy *= 0.85;
+      p.x += p.vx;
+      p.y += p.vy;
+
+      const alpha = 0.25 + force * 0.6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,255,136,${alpha})`;
+      ctx.fill();
     });
-  }); 
-    </script>
-    <section id="inicio">
-        <!-- Añade un contenedor div para el efecto de texto -->
-        <div id="texto-container">
-            <h1>Hello! I'm <p id="titulo"></p></h1>
-        </div>
-        <!-- Contenido de la sección de inicio -->
-        <p id="p-welcome">Welcome to my portfolio</p>
-    </section>
-    </div>
-    </div>
-    <section id="proyectos" class="secciones" data-aos="fade-up">
-        <h2 class="titulo" data-aos="fade-down">PROJECTS</h2>
-    <div class="grid" data-aos="fade-down">
-      <div class="proyecto" href="https://fruti-homies-delivery.netlify.app/" onclick="abrirPagina(event, 'https://fruti-homies-delivery.netlify.app/')">
-        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Fruti-Homies.png" alt="Imagen 1">
-        <p>Landing Page Fruti Homies</p>
-        </a>
-      </div>
-      <div class="proyecto">
-        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Dr-Norman-Borlaug.png" alt="Imagen 2">
-        <p>Tribute page Dr Norman Borlaug</p>
-        </a>
-      </div>
-      <div class="proyecto">
-        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Pele-tribute-page.png" alt="Imagen 3">
-        <p>Tribute page Pele</p>
-        </a>
-      </div>
-      <div class="proyecto">
-        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/JS-Documentary.png" alt="Imagen 4">
-        <p>JS Documentary</p>
-        </a>
-      </div>
-      <div class="proyecto">
-        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Trombones.png" alt="Imagen 5">
-        <p>Landing Page Trombones</p>
-        </a>
-      </div>
-      <div class="proyecto">
-        <a href="https://fruti-homies-delivery.netlify.app/" target="_blank"><img src="Imagenes/Survey-wc.png" alt="Imagen 6">
-        <p>Survey Form World Cup</p>
-        </a>
-      </div>
-    </div>
-    </section>
-    <section id="Technologies" class="secciones">
-        <h3 class="titulo" id="tech-h3" data-aos="fade-down">Technologies</h3>
-        <!-- Contenido de la sección de contacto -->
-        <div id="grid-tech" data-aos="fade-down">
-            <div class="certify" href="https://fruti-homies-delivery.netlify.app/" onclick="abrirPagina(event, 'https://fruti-homies-delivery.netlify.app/')">
-                <a href="https://www.freecodecamp.org/certification/Mauricio25667/responsive-web-design" target="_blank"><img src="Imagenes/HTML-and-CSS.png" alt="Imagen 1">
-                <p>HTML and CSS</p>
-                </a>
-            </div>
-            <div class="certify" href="https://fruti-homies-delivery.netlify.app/" onclick="abrirPagina(event, 'https://fruti-homies-delivery.netlify.app/')">
-                <a href="https://www.freecodecamp.org/certification/Mauricio25667/javascript-algorithms-and-data-structures" target="_blank"><img src="Imagenes/Javascript.png" alt="Imagen 1">
-                <p>Javascript</p>
-                </a>
-            </div>
-        </div>
-    </section>
-    
-    <footer id="contact-me">
-        <div class="social-icons">
-        <a href="#"><img id="instagram"  src="Imagenes/Instagram_logo_2016.svg.webp" alt="Instagram"></a>
-        <a href="#"><img id="linkedin"  src="Imagenes/linkedin-logo.png" alt="Linkedin"></a>
-        <a href="#"><img id="github"  src="Imagenes/25231.png" alt="Github"></a>
-        <a href="#"><img id="whatsapp"  src="Imagenes/Whatsapp_logo_svg.png" alt="Whatsapp"></a>
-        
-        </div>
-    </footer>
-    <script>
-        generateLinkedInLogo(document.getElementById("linkedin-logo"));
-      </script>
-    <script src="script.js"></script>
-    <script>
-        const palabras = ["Mauricio", "Front\u00A0End\u00A0Developer"]; // Cambia estas palabras por las que desees
-        let indice = 0;
-        let escribiendo = true;
-        let tituloElement = document.getElementById("titulo");
-        let tiempoDeEspera = 1000; // Tiempo de espera predeterminado
-    
-        function escribirBorrarTexto() {
-            const palabraActual = palabras[indice];
-            let textoActual = tituloElement.innerText;
-    
-            if (escribiendo) {
-                if (textoActual !== palabraActual) {
-                    const letraActual = palabraActual.charAt(textoActual.length);
-                    textoActual += letraActual === ' ' ? '\u00A0' : letraActual; // Usa '\u00A0' para espacio en blanco no colapsable
-                    tituloElement.innerText = textoActual;
-                    setTimeout(escribirBorrarTexto, 100);
-                } else {
-                    setTimeout(() => {
-                        escribiendo = false;
-                        tiempoDeEspera = 1000; // Cambia el tiempo de espera cuando se completa la escritura
-                        setTimeout(borrarTexto, tiempoDeEspera);
-                    }, 1000); // Espera 1 segundo antes de iniciar el borrado
-                }
-            } else {
-                setTimeout(borrarTexto, 1000); // Espera 1 segundo antes de iniciar el borrado
-            }
+
+    // draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 90) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,255,136,${0.06 * (1 - d / 90)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
         }
-    
-        function borrarTexto() {
-            const palabraActual = palabras[indice];
-            let textoActual = tituloElement.innerText;
-    
-            if (textoActual !== "") {
-                textoActual = textoActual.slice(0, -1);
-                tituloElement.innerText = textoActual;
-                setTimeout(borrarTexto, 100);
-            } else {
-                setTimeout(() => {
-                    escribiendo = true;
-                    indice = (indice + 1) % palabras.length;
-                    tiempoDeEspera = 1000; // Cambia el tiempo de espera cuando se completa el borrado
-                    setTimeout(escribirBorrarTexto, tiempoDeEspera);
-                }, 100); // Espera 1 segundo antes de iniciar la escritura
-            }
-        }
-    
-        escribirBorrarTexto();
-    </script>
-    
-    
-    <script>
-        AOS.init({
-            duration: 1000, // Duración de las animaciones en milisegundos
-            easing: 'ease-in-out', // Tipo de easing para las animaciones (puedes cambiarlo según tus preferencias)
-            once: true // Esta opción hace que las animaciones solo se reproduzcan una vez
-        });
-    </script> 
-    
+      }
+    }
+
+    requestAnimationFrame(animCanvas);
+  }
+  animCanvas();
+
+  // ── CUSTOM CURSOR ──
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  function animCursor() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+      dot.style.transform = 'translate(-50%,-50%) scale(0)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      dot.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+  });
+
+  // ── TYPEWRITER ──
+  const words = ['Mauricio', 'Frontend Dev', 'UI Crafter'];
+  let wi = 0, ci = 0, deleting = false;
+  const tw = document.getElementById('typewriter');
+
+  function type() {
+    const word = words[wi];
+    if (!deleting) {
+      tw.textContent = word.slice(0, ci + 1);
+      ci++;
+      if (ci === word.length) {
+        deleting = true;
+        setTimeout(type, 1600);
+        return;
+      }
+    } else {
+      tw.textContent = word.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+      }
+    }
+    setTimeout(type, deleting ? 60 : 100);
+  }
+  type();
+
+  // ── HAMBURGER ──
+  const ham = document.getElementById('hamburger');
+  const mob = document.getElementById('mobileMenu');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+  });
+
+  mob.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+      ham.classList.remove('open');
+      mob.classList.remove('open');
+    });
+  });
+
+  // ── SMOOTH SCROLL ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // ── NAV SHRINK ──
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('mainNav');
+    nav.style.padding = window.scrollY > 60 ? '0.7rem 4rem' : '1.2rem 4rem';
+  });
+</script>
 </body>
 </html>
-
 
